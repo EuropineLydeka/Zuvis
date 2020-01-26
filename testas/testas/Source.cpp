@@ -2,107 +2,74 @@
 #include <fstream>
 using namespace std;
 
-void eilutes(int&);
-void irasymas(char masyvas[], ifstream&, int& sk);
-void skaiciavimas(int eil, int simboliai[], ifstream&, char masyvas[], int sk);
+void Eilutes(int&);
+void Skaiciuoti(int eil, int simboliai[], ifstream&, char masyvas[], int sk);
 void daugiausiai(int eil, int simboliai[], int& eilute);
-void spausdinimas(int did);
+void Spausdinti(int did);
 
 
-int main()
-{
+int main() {
+    int eil = 0, sk = 0, eilute = 0;
+    int simboliai[100];
+    char masyvas[100];
 	ifstream duom("duomenys.txt");
-	int eil = 0;
-	int sk = 0;
-	int simboliai[100];
-	char masyvas[100];
-	int eilute = 0;
 	eilutes(eil);
 	skaiciavimas(eil, simboliai, duom, masyvas, sk);
 	daugiausiai(eil, simboliai, eilute);
-	spausdinimas(eilute);
-	system("PAUSE");
+	Spausdinti(eilute);
+	return 0;
 }
-void eilutes(int& eil)
-{
-	ifstream duom("duomenys.txt");
-	char c;
-	while (!duom.eof())
-	{
-		while (!duom.eof())
-		{
-			duom.get(c);
-			if (c == '\n' || duom.eof())
-			{
+
+void Eilutes(int& eil) {
+	ifstream fin("duomenys.txt");
+	char character;
+	while (!fin.eof()) {
+		while (!fin.eof()) {
+			fin.get(character);
+			if (character == '\n' || fin.eof()) {
 				eil++;
 				break;
 			}
-
 		}
 	}
 }
 
-void irasymas(char masyvas[], ifstream& duom, int& sk)
-{
-	char c;
-	while (!duom.eof())
-	{
-		duom.get(c);
-		if (c == '\n' || duom.eof())
-		{
-			break;
-		}
-		masyvas[sk] = c;
-		sk++;
-	}
-}
 
-void skaiciavimas(int eil, int simboliai[], ifstream& duom, char masyvas[], int sk)
-{
-
+void Skaiciuoti(int eilutes, int simboliai[], ifstream& fin, char masyvas[], int index){
 	int a = 0;
-	char c;
-	for(int i = 0; i < eil; i++)
-	{
-		irasymas(masyvas, duom, sk);
-		cout << sk << endl;
-		for (int i = 0; i < sk; i++)
-		{
-			c = masyvas[i];
-			if (c == '\n')
-			{
+	char character;
+	for(int i = 0; i < eilutes; i++) {
+		irasymas(masyvas, fin, index);
+		cout << index << endl;
+		for (int i = 0; i < sk; i++) {
+			character = masyvas[i];
+			if (character == '\n') {
 				break;
 			}
-			if (c == '.')
-			{
-				a++;
+			if (character == '.') {
+				counter++;
 			}
-			if (c == ',')
-			{
-				a++;
+			if (character == ',') {
+				counter++;
 			}
 		}
-		simboliai[i] = a;
-		a = 0;
-		sk = 0;
+		simboliai[i] = counter;
+		counter = 0;
+		index = 0;
 	}
 }
 
-void daugiausiai(int eil, int simboliai[], int& eilute)
-{
+void daugiausiai(int eil, int simboliai[], int& eilute) {
 	int did = -1;
-	for (int i = 0; i < eil; i++)
-	{
-		if (simboliai[i] > did)
-		{
+	for (int i = 0; i < eil; i++) {
+		if (simboliai[i] > did) {
 			did = simboliai[i];
 			eilute = i+1;
 		}
 	}
 }
 
-void spausdinimas(int eilute)
-{
+void Spausdinti(int eilute) {
 	ofstream rez("rezultatai.txt");
 	rez << eilute << " eiluteje yra daugiausiai simboliu" << endl;
 }
